@@ -1,0 +1,3 @@
+Los hilos exitosos han sido: 290
+Los hilos con errores han sido: 10
+Lo que supone una tasa de exito de : 96,67%

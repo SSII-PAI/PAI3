@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Kpi",
+            "request": "launch",
+            "mainClass": "Kpi",
+            "projectName": "PAI3_18850fce"
+        },
+        {
+            "type": "java",
             "name": "Server",
             "request": "launch",
             "mainClass": "MsgSSLServerSocket",

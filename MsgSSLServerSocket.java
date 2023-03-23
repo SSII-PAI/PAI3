@@ -12,6 +12,8 @@ public class MsgSSLServerSocket {
 		SSLServerSocketFactory serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 		SSLServerSocket serverSocket = (SSLServerSocket) serverSocketFactory.createServerSocket(PORT);
 		serverSocket.setEnabledProtocols(new String[] { "TLSv1.3" });
+		serverSocket.setEnabledCipherSuites(
+				new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
 
 		System.out.println("Server listening on port " + PORT);
 
@@ -31,7 +33,10 @@ public class MsgSSLServerSocket {
 		@Override
 		public void run() {
 			try {
+				// Mensaje del cliente
 				InputStream inputStream = clientSocket.getInputStream();
+
+				// Mensaje de respuesta del servidor
 				OutputStream outputStream = clientSocket.getOutputStream();
 
 				// Read the user, password, and message from the input stream
