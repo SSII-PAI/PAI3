@@ -33,8 +33,8 @@ public class MsgSSLClientSocket {
 					SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 					SSLSocket socket = (SSLSocket) socketFactory.createSocket(SERVER_HOSTNAME, SERVER_PORT);
 					socket.setEnabledProtocols(new String[] { "TLSv1.3" });
-					socket.setEnabledCipherSuites(
-						new String[] { "DHE-RSA", "ECDHE-RSA", "ECDHE-ECDSA" });
+					// Enable only the cipher suites that we want to support
+					socket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
 					socket.startHandshake();
 
 					InputStream inputStream = socket.getInputStream();

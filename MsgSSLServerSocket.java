@@ -12,8 +12,9 @@ public class MsgSSLServerSocket {
 		SSLServerSocketFactory serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 		SSLServerSocket serverSocket = (SSLServerSocket) serverSocketFactory.createServerSocket(PORT);
 		serverSocket.setEnabledProtocols(new String[] { "TLSv1.3" });
-		serverSocket.setEnabledCipherSuites(
-				new String[] { "DHE-RSA", "ECDHE-RSA", "ECDHE-ECDSA" });
+		
+		// Enable only the cipher suites that we want to support
+		serverSocket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
 
 		System.out.println("Server listening on port " + PORT);
 
