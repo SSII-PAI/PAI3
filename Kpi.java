@@ -24,13 +24,13 @@ public class Kpi {
             // Lectura del fichero
             String linea;
             while ((linea = br.readLine()) != null)
-                
+
                 if (linea.contains("INFO")) {
                     success += 1;
                 } else if (linea.contains("SEVERE")) {
                     errors += 1;
                 }
-                kpi=(double)success/(success+errors)*100;
+            kpi = (double) success / (success + errors) * 100;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -47,25 +47,24 @@ public class Kpi {
         }
         FileWriter fichero = null;
         PrintWriter pw = null;
-        try
-        {
+        try {
             fichero = new FileWriter("./Kpi.txt");
             pw = new PrintWriter(fichero);
-            pw.println("Los hilos exitosos han sido: "+success);
-            pw.println("Los hilos con errores han sido: "+errors);
-            pw.println(String.format("Lo que supone una tasa de exito de : %.2f%s",kpi,"%"));
+            pw.println("Los hilos exitosos han sido: " + success);
+            pw.println("Los hilos con errores han sido: " + errors);
+            pw.println(String.format("Lo que supone una tasa de exito de : %.2f%s", kpi, "%"));
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-           try {
-           // Nuevamente aprovechamos el finally para 
-           // asegurarnos que se cierra el fichero.
-           if (null != fichero)
-              fichero.close();
-           } catch (Exception e2) {
-              e2.printStackTrace();
-           }
+            try {
+                // Nuevamente aprovechamos el finally para
+                // asegurarnos que se cierra el fichero.
+                if (null != fichero)
+                    fichero.close();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
         }
     }
 }

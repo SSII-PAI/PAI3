@@ -13,12 +13,15 @@ public class MsgSSLServerSocket {
 		SSLServerSocket serverSocket = (SSLServerSocket) serverSocketFactory.createServerSocket(PORT);
 		serverSocket.setEnabledProtocols(new String[] { "TLSv1.3" });
 		serverSocket.setEnabledCipherSuites(
-				new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
+				new String[] { "DHE-RSA", "ECDHE-RSA", "ECDHE-ECDSA" });
 
 		System.out.println("Server listening on port " + PORT);
 
 		while (true) {
+			// Aceptar conexión del cliente
 			Socket clientSocket = serverSocket.accept();
+
+			// Crear hilo nuevo
 			new Thread(new ClientHandler(clientSocket)).start();
 		}
 	}

@@ -14,25 +14,18 @@ public class MsgSSLClientSocket {
 	private static final int NUM_THREADS = 300;
 	private static final Logger log = Logger.getLogger(MsgSSLClientSocket.class.getName());
 
-	
-
 	public static void main(String[] args) throws IOException, InterruptedException {
-		FileHandler fh;  
+		FileHandler fh;
 
-		try {  
-	
-			// Este bloque configura el logger con el handler y el formatter  
-			fh = new FileHandler("./LogFile.log");  
+		try {
+			// Este bloque configura el logger con el handler y el formatter
+			fh = new FileHandler("./LogFile.log");
 			log.addHandler(fh);
-			SimpleFormatter formatter = new SimpleFormatter();  
-			fh.setFormatter(formatter); 
-		} catch (SecurityException e) {  
-			e.printStackTrace();  
-		} catch (IOException e) {  
-			e.printStackTrace();  
-		}  
-
-
+			SimpleFormatter formatter = new SimpleFormatter();
+			fh.setFormatter(formatter);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 
 		for (int i = 0; i < NUM_THREADS; i++) {
 			new Thread(() -> {
@@ -40,8 +33,8 @@ public class MsgSSLClientSocket {
 					SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 					SSLSocket socket = (SSLSocket) socketFactory.createSocket(SERVER_HOSTNAME, SERVER_PORT);
 					socket.setEnabledProtocols(new String[] { "TLSv1.3" });
-					socket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384",
-							"TLS_CHACHA20_POLY1305_SHA256" });
+					socket.setEnabledCipherSuites(
+						new String[] { "DHE-RSA", "ECDHE-RSA", "ECDHE-ECDSA" });
 					socket.startHandshake();
 
 					InputStream inputStream = socket.getInputStream();
@@ -68,5 +61,5 @@ public class MsgSSLClientSocket {
 		Thread.sleep(5000);
 
 	}
-	
+
 }
