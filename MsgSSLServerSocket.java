@@ -25,8 +25,8 @@ public class MsgSSLServerSocket {
 				// Crear hilo nuevo
 				new Thread(new ClientHandler(clientSocket)).start();
 			}
-		} catch (Exception e) {
-            e.printStackTrace();
+		} catch (IOException e) {
+            log.severe(e.getMessage());
         }
 	}
 
@@ -53,7 +53,7 @@ public class MsgSSLServerSocket {
 
 				clientSocket.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.severe(e.getMessage());
 			}
 		}
 	}
