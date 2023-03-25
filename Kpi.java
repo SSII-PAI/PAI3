@@ -3,8 +3,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
+import java.io.IOException;
+import java.util.logging.Logger;
 
 public class Kpi {
+    private static final Logger log = Logger.getLogger(Kpi.class.getName());
 
     public static void main(String[] arg) {
         int errors = 0;
@@ -28,8 +31,8 @@ public class Kpi {
                 kpi = (double) success / (success + errors) * 100;
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            log.severe(e.getMessage());
         }
         try (FileWriter fichero = new FileWriter("./Kpi.txt");
             PrintWriter pw = new PrintWriter(fichero)) {
@@ -38,8 +41,8 @@ public class Kpi {
             pw.println("Los hilos con errores han sido: " + errors);
             pw.println(String.format("Lo que supone una tasa de exito de : %.2f%s", kpi, "%"));
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        } 
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
     }
 }
