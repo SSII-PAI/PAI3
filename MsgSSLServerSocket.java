@@ -1,12 +1,13 @@
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import javax.net.ssl.SSLServerSocket;
 import javax.net.ssl.SSLServerSocketFactory;
+import java.util.logging.Logger;
 
 public class MsgSSLServerSocket {
 	private static final int PORT = 8443;
+	private static final Logger log = Logger.getLogger(MsgSSLServerSocket.class.getName());
 
 	public static void main(String[] args) throws IOException {
 		SSLServerSocketFactory serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
@@ -16,7 +17,7 @@ public class MsgSSLServerSocket {
 		// Enable only the cipher suites that we want to support
 		serverSocket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
 
-		System.out.println("Server listening on port " + PORT);
+		log.info("Server listening on port " + PORT);
 
 		while (true) {
 			// Aceptar conexión del cliente
@@ -37,8 +38,6 @@ public class MsgSSLServerSocket {
 		@Override
 		public void run() {
 			try {
-				// Mensaje del cliente
-				InputStream inputStream = clientSocket.getInputStream();
 
 				// Mensaje de respuesta del servidor
 				OutputStream outputStream = clientSocket.getOutputStream();
