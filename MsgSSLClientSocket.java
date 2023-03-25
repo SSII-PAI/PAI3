@@ -23,8 +23,8 @@ public class MsgSSLClientSocket {
 			log.addHandler(fh);
 			SimpleFormatter formatter = new SimpleFormatter();
 			fh.setFormatter(formatter);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (IOException e) {
+			log.severe(e.getMessage());
 		} 
 
 		for (int i = 0; i < NUM_THREADS; i++) {
