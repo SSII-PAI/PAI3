@@ -9,17 +9,15 @@ public class Kpi {
     public static void main(String[] arg) {
         File archivo = null;
         FileReader fr = null;
-        BufferedReader br = null;
         int errors = 0;
         int success = 0;
         Double kpi = 0.0;
 
-        try {
+        try (BufferedReader br = new BufferedReader(fr)) {
             // Apertura del fichero y creacion de BufferedReader para poder
             // hacer una lectura comoda (disponer del metodo readLine()).
             archivo = new File("./LogFile.log");
             fr = new FileReader(archivo);
-            br = new BufferedReader(fr);
 
             // Lectura del fichero
             String linea;
@@ -46,10 +44,8 @@ public class Kpi {
             }
         }
         FileWriter fichero = null;
-        PrintWriter pw = null;
-        try {
+        try (PrintWriter pw = new PrintWriter(fichero)) {
             fichero = new FileWriter("./Kpi.txt");
-            pw = new PrintWriter(fichero);
             pw.println("Los hilos exitosos han sido: " + success);
             pw.println("Los hilos con errores han sido: " + errors);
             pw.println(String.format("Lo que supone una tasa de exito de : %.2f%s", kpi, "%"));
