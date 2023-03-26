@@ -25,16 +25,22 @@ public class MsgSSLClientSocket {
 			fh.setFormatter(formatter);
 		} catch (IOException e) {
 			log.severe(e.getMessage());
-		} 
+		}
 
 		for (int i = 0; i < NUM_THREADS; i++) {
 			new Thread(() -> {
 				try {
 					SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 					SSLSocket socket = (SSLSocket) socketFactory.createSocket(SERVER_HOSTNAME, SERVER_PORT);
+
+					// Activar solo los protocolos que queremos soportar
 					socket.setEnabledProtocols(new String[] { "TLSv1.3" });
-					// Enable only the cipher suites that we want to support
-					socket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
+
+					// Activar solo los suites de cifrado que queremos soportar
+					socket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384",
+							"TLS_CHACHA20_POLY1305_SHA256" });
+
+					// Iniciar handshake
 					socket.startHandshake();
 
 					InputStream inputStream = socket.getInputStream();

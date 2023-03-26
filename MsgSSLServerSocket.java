@@ -11,10 +11,13 @@ public class MsgSSLServerSocket {
 
 	public static void main(String[] args) throws IOException {
 		SSLServerSocketFactory serverSocketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
-		try (SSLServerSocket serverSocket = (SSLServerSocket) serverSocketFactory.createServerSocket(PORT)){
-			serverSocket.setEnabledProtocols(new String[] { "TLSv1.3" });			
-			// Enable only the cipher suites that we want to support
-			serverSocket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384", "TLS_CHACHA20_POLY1305_SHA256" });
+		try (SSLServerSocket serverSocket = (SSLServerSocket) serverSocketFactory.createServerSocket(PORT)) {
+			// Activar solo los protocolos que queremos soportar
+			serverSocket.setEnabledProtocols(new String[] { "TLSv1.3" });
+
+			// Activar solo los suites de cifrado que queremos soportar
+			serverSocket.setEnabledCipherSuites(new String[] { "TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384",
+					"TLS_CHACHA20_POLY1305_SHA256" });
 
 			log.info("Server listening on port " + PORT);
 
@@ -26,8 +29,8 @@ public class MsgSSLServerSocket {
 				new Thread(new ClientHandler(clientSocket)).start();
 			}
 		} catch (IOException e) {
-            log.severe(e.getMessage());
-        }
+			log.severe(e.getMessage());
+		}
 	}
 
 	private static class ClientHandler implements Runnable {
@@ -44,13 +47,10 @@ public class MsgSSLServerSocket {
 				// Mensaje de respuesta del servidor
 				OutputStream outputStream = clientSocket.getOutputStream();
 
-				// Read the user, password, and message from the input stream
-				// Authenticate the user and password
-				// Process the message
-
-				// Write the response to the output stream
+				// Escribir mensaje de respuesta
 				outputStream.write("Message processed successfully".getBytes());
 
+				// Cerrar conexión
 				clientSocket.close();
 			} catch (IOException e) {
 				log.severe(e.getMessage());

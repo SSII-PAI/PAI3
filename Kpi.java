@@ -15,19 +15,22 @@ public class Kpi {
         Double kpi = 0.0;
         File archivo = new File("./LogFile.log");
 
-        try (FileReader fr = new FileReader(archivo);    
-            BufferedReader br = new BufferedReader(fr)){            
+        try (FileReader fr = new FileReader(archivo);
+                BufferedReader br = new BufferedReader(fr)) {
 
             // Lectura del fichero
             String linea;
             while ((linea = br.readLine()) != null)
 
                 if (linea.contains("INFO") || linea.contains("INFORMACIÓN")) {
+                    // Contar hilos exitosos
                     success += 1;
                 } else if (linea.contains("SEVERE") || linea.contains("GRAVE")) {
+                    // Contar hilos con errores
                     errors += 1;
                 }
-            if (success+errors > 0){
+            if (success + errors > 0) {
+                // Calcular kpi
                 kpi = (double) success / (success + errors) * 100;
             }
 
@@ -35,8 +38,9 @@ public class Kpi {
             log.severe(e.getMessage());
         }
         try (FileWriter fichero = new FileWriter("./Kpi.txt");
-            PrintWriter pw = new PrintWriter(fichero)) {
-            
+                PrintWriter pw = new PrintWriter(fichero)) {
+
+            // Escritura del fichero
             pw.println("Los hilos exitosos han sido: " + success);
             pw.println("Los hilos con errores han sido: " + errors);
             pw.println(String.format("Lo que supone una tasa de exito de : %.2f%s", kpi, "%"));
